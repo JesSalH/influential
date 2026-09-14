@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
+import { BrandLockup } from "@/components/brand-lockup";
 import { STUDIO_URL } from "@/lib/influential";
 
 const nav = [
@@ -16,9 +17,11 @@ function StudioMark({ className = "" }: { className?: string }) {
     <a
       href={STUDIO_URL}
       className={`group inline-flex flex-col justify-center leading-[0.82] ${className}`}
-      aria-label="INFLUENTIAL Studio — open the self-serve desk"
+      aria-label="INFLUENTIAL LABS Studio — open the self-serve desk"
     >
-      <span className="font-display text-[10px] font-extrabold tracking-[-0.03em] text-fg">INFLUENTIAL</span>
+      <span className="font-display text-[10px] font-extrabold tracking-[-0.03em] text-fg">
+        INFLUENTIAL <span className="text-spot">LABS</span>
+      </span>
       <span className="font-display text-base font-extrabold tracking-[-0.05em] text-spot group-hover:text-heat">
         Studio
       </span>
@@ -31,8 +34,8 @@ export function SiteHeader() {
 
   return (
     <header className="relative z-30 flex items-start justify-between px-6 pt-5 pb-3 text-[11px] font-medium uppercase tracking-[0.14em]">
-      <Link to="/" className="font-display text-lg font-extrabold tracking-[-0.04em] normal-case">
-        INFLUENTIAL
+      <Link to="/" className="normal-case tracking-normal" aria-label="INFLUENTIAL LABS">
+        <BrandLockup variant="nav" />
       </Link>
 
       <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">

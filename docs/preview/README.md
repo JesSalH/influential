@@ -1,4 +1,4 @@
-# INFLUENTIAL — landing screenshots
+# INFLUENTIAL LABS — landing screenshots
 
 The grok.me URL sits behind a Grok login. These shots are the public design record.
 

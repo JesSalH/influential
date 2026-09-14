@@ -67,6 +67,16 @@
       0.042em 0.042em 0 #4a4a48,
       0.06em 0.06em 0 #161614;
   }
+
+  .wordmark-labs {
+    color: var(--color-spot);
+    -webkit-text-stroke: 0.018em var(--color-spot);
+    text-shadow:
+      0.014em 0.014em 0 #e07068,
+      0.028em 0.028em 0 #a33a34,
+      0.042em 0.042em 0 #6b201c,
+      0.06em 0.06em 0 #2a0c0b;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

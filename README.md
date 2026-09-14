@@ -1,4 +1,4 @@
-# INFLUENTIAL
+# INFLUENTIAL LABS
 
 AI influencer studio. Create hyper-real presenters, generate finished video from a prompt, direct performance in a document, and ship the same face in 175+ languages.
 

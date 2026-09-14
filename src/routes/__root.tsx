@@ -3,7 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "INFLUENTIAL";
+const APP_NAME = "INFLUENTIAL LABS";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -14,7 +14,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "INFLUENTIAL builds hyper-realistic AI influencers. Avatar generation, prompt-to-video, AI Studio, and video translation in 100+ languages.",
+          "INFLUENTIAL LABS builds hyper-realistic AI influencers. Avatar generation, prompt-to-video, AI Studio, and video translation in 100+ languages.",
       },
       { name: "theme-color", content: "#0a0a0a" },
     ],

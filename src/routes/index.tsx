@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { BrandLockup } from "@/components/brand-lockup";
 import { HoverLoop } from "@/components/hover-loop";
 import { ReelRow } from "@/components/reel-row";
 import { SiteFooter } from "@/components/site-footer";
@@ -18,7 +19,7 @@ function Home() {
 
       <section className="px-6 pt-4 [container-type:inline-size]">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Vol.01 · AI influencer studio</p>
-        <h1 className="wordmark mt-5">INFLUENTIAL</h1>
+        <BrandLockup variant="hero" />
         <p className="mt-5 font-display text-[clamp(2.6rem,9.5vw,8.5rem)] font-extrabold uppercase leading-[0.78] tracking-[-0.06em]">
           The most
           <br />
@@ -56,7 +57,7 @@ function Home() {
             Realistic AI video in minutes.
           </h2>
           <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted text-pretty">
-            Be everywhere without being everywhere. INFLUENTIAL keeps the same face, the same micro-expressions, the same presence — in a 30-second clip and a 10-minute course module. No drift. No artifacts. No uncanny valley.
+            Be everywhere without being everywhere. INFLUENTIAL LABS keeps the same face, the same micro-expressions, the same presence — in a 30-second clip and a 10-minute course module. No drift. No artifacts. No uncanny valley.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#avatar" className={cn(buttonVariants({ variant: "solid" }))}>
@@ -275,13 +276,15 @@ function Home() {
           <figure className="min-h-80 overflow-hidden lg:min-h-[32rem]">
             <img
               src="/product/diy-studio.jpg"
-              alt="A creator running INFLUENTIAL Studio from their own desk"
+              alt="A creator running INFLUENTIAL LABS Studio from their own desk"
               className="h-full w-full object-cover object-center"
             />
           </figure>
           <div className="flex flex-col justify-center px-6 py-12 lg:px-12">
             <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Self-serve · Paid in coins</p>
-            <p className="mt-5 font-display text-[11px] font-extrabold tracking-[0.18em] text-spot">INFLUENTIAL</p>
+            <p className="mt-5 font-display text-[11px] font-extrabold tracking-[0.18em]">
+              INFLUENTIAL <span className="text-spot">LABS</span>
+            </p>
             <h2 className="mt-1 font-display text-[clamp(2.4rem,5.4vw,5rem)] font-extrabold uppercase leading-[0.84] tracking-[-0.05em]">
               Studio
             </h2>
@@ -387,7 +390,7 @@ function Home() {
             A team reviews every asset before it ships, this isn't a self-serve render.
           </p>
           <p className="mt-5 mb-10 max-w-prose text-muted text-pretty">
-            AI video has a consent problem. INFLUENTIAL treats likeness, brand language, and the edit as things you keep — not a model we train on in the dark.
+            AI video has a consent problem. INFLUENTIAL LABS treats likeness, brand language, and the edit as things you keep — not a model we train on in the dark.
           </p>
         </div>
         <div className="grid border-t-2 border-line md:grid-cols-3">
@@ -418,7 +421,7 @@ function Home() {
           </Link>
         </div>
         <figure className="min-h-72 overflow-hidden lg:min-h-[28rem]">
-          <img src="/talent/sable.jpg" alt="INFLUENTIAL talent" className="h-full w-full object-cover" />
+          <img src="/talent/sable.jpg" alt="INFLUENTIAL LABS talent" className="h-full w-full object-cover" />
         </figure>
       </section>
 
@@ -433,7 +436,7 @@ function CompareShot() {
     <figure className="relative min-h-80 overflow-hidden lg:min-h-[36rem]">
       <img
         src={gen ? "/product/news.jpg" : "/talent/sable.jpg"}
-        alt={gen ? "INFLUENTIAL avatar on a news desk" : "Reference still"}
+        alt={gen ? "INFLUENTIAL LABS avatar on a news desk" : "Reference still"}
         className="h-full w-full object-cover object-top"
       />
       <div className="absolute bottom-4 left-4 flex border-2 border-line bg-bg/90">
@@ -455,7 +458,7 @@ function CompareShot() {
             gen ? "bg-heat text-heat-fg" : "text-muted hover:text-fg",
           )}
         >
-          INFLUENTIAL
+          LABS
         </button>
       </div>
     </figure>
@@ -498,10 +501,10 @@ function Ethics({ t, d }: { t: string; d: string }) {
 
 function HeroShots() {
   const shots = [
-    { src: "/talent/sable.jpg", video: "/loops/sable.mp4", alt: "INFLUENTIAL avatar, fashion" },
-    { src: "/talent/ash.jpg", video: "/loops/ash.mp4", alt: "INFLUENTIAL avatar, editorial" },
-    { src: "/talent/lina.jpg", video: "/loops/lina.mp4", alt: "INFLUENTIAL avatar, lifestyle" },
-    { src: "/talent/kai.jpg", video: "/loops/kai.mp4", alt: "INFLUENTIAL avatar, campaign" },
+    { src: "/talent/sable.jpg", video: "/loops/sable.mp4", alt: "INFLUENTIAL LABS avatar, fashion" },
+    { src: "/talent/ash.jpg", video: "/loops/ash.mp4", alt: "INFLUENTIAL LABS avatar, editorial" },
+    { src: "/talent/lina.jpg", video: "/loops/lina.mp4", alt: "INFLUENTIAL LABS avatar, lifestyle" },
+    { src: "/talent/kai.jpg", video: "/loops/kai.mp4", alt: "INFLUENTIAL LABS avatar, campaign" },
   ] as const;
   const { active, enter, leave } = useRotate(shots.length);
 

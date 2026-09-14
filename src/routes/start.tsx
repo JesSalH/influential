@@ -61,7 +61,7 @@ function StartPage() {
               The brief is with the studio. A producer will follow up at the email you left.
             </p>
             <Link to="/" className="mt-8 inline-flex min-h-12 items-center bg-fg px-5 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-bg">
-              Back to INFLUENTIAL
+              Back to INFLUENTIAL LABS
             </Link>
           </div>
         ) : (

@@ -1,4 +1,4 @@
-# INFLUENTIAL — plan del proyecto
+# INFLUENTIAL LABS — plan del proyecto
 
 Plataforma de creación de influencers / avatares de IA. Prototipo experimental.
 Idioma de producto: **inglés de EE. UU.**

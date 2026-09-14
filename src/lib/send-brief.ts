@@ -39,7 +39,7 @@ export const sendBrief = createServerFn({ method: "POST" })
         _replyto: data.email,
         company: data.company || "—",
         brief: data.brief,
-        _subject: `INFLUENTIAL brief — ${data.name}`,
+        _subject: `INFLUENTIAL LABS brief — ${data.name}`,
         _template: "table",
         _captcha: "false",
       }),
