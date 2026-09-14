@@ -127,6 +127,7 @@ export const locales = [
 ] as const;
 
 export const STUDIO_URL = "https://project-eva.lovable.app/";
+export const CONTACT_EMAIL = "garvielcontact@proton.me";
 
 export const selfServe = [
   { n: "01", t: "Image editing", d: "Upload a photo. Describe the change. 10 coins — refunded if it fails." },

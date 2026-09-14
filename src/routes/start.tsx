@@ -3,29 +3,55 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
+import { CONTACT_EMAIL } from "@/lib/influential";
 
 export const Route = createFileRoute("/start")({ component: StartPage });
 
 function StartPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const payload = {
-      name: String(data.get("name") ?? ""),
-      email: String(data.get("email") ?? ""),
-      company: String(data.get("company") ?? ""),
-      brief: String(data.get("brief") ?? ""),
-      at: new Date().toISOString(),
-    };
-    try {
-      const prev = JSON.parse(localStorage.getItem("influential-briefs") ?? "[]") as unknown[];
-      localStorage.setItem("influential-briefs", JSON.stringify([payload, ...prev].slice(0, 20)));
-    } catch {
-      /* ignore quota */
+    setError("");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    if (String(data.get("company_website") ?? "")) {
+      setSent(true);
+      return;
     }
-    setSent(true);
+    const name = String(data.get("name") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const company = String(data.get("company") ?? "").trim();
+    const brief = String(data.get("brief") ?? "").trim();
+    setSending(true);
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          _replyto: email,
+          company: company || "—",
+          brief,
+          _subject: `INFLUENTIAL brief — ${name}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      const json = (await res.json()) as { success?: string | boolean; message?: string };
+      const activating = /activation/i.test(String(json.message ?? ""));
+      if (!activating && (!res.ok || json.success === "false" || json.success === false)) {
+        throw new Error("rejected");
+      }
+      setSent(true);
+    } catch {
+      setError(`The brief didn't go through. Email us at ${CONTACT_EMAIL}.`);
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -47,14 +73,22 @@ function StartPage() {
           <div className="border-2 border-line p-8">
             <p className="font-display text-4xl font-extrabold uppercase tracking-[-0.04em]">Received.</p>
             <p className="mt-4 max-w-prose text-muted">
-              We logged the brief on this device. A producer will follow up at the email you left.
+              The brief is with the studio. A producer will follow up at the email you left.
             </p>
             <Link to="/" className="mt-8 inline-flex min-h-12 items-center bg-fg px-5 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-bg">
               Back to INFLUENTIAL
             </Link>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="flex flex-col gap-5 border-2 border-line p-6 sm:p-8">
+          <form onSubmit={onSubmit} className="relative flex flex-col gap-5 border-2 border-line p-6 sm:p-8">
+            <input
+              type="text"
+              name="company_website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+              aria-hidden
+            />
             <Field id="name" label="Name" required />
             <Field id="email" label="Work email" type="email" required />
             <Field id="company" label="Company" />
@@ -69,7 +103,10 @@ function StartPage() {
                 placeholder="Avatar, industry, language, length."
               />
             </label>
-            <Button type="submit">Send brief</Button>
+            {error ? <p className="text-sm text-heat">{error}</p> : null}
+            <Button type="submit" disabled={sending}>
+              {sending ? "Sending…" : "Send brief"}
+            </Button>
           </form>
         )}
       </main>
