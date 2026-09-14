@@ -5,7 +5,7 @@ import { ReelRow } from "@/components/reel-row";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { buttonVariants } from "@/components/ui/button";
-import { locales, pillars, tools } from "@/lib/influential";
+import { locales, pillars, selfServe, STUDIO_URL, tools } from "@/lib/influential";
 import { useRotate } from "@/lib/use-rotate";
 import { cn } from "@/lib/utils";
 
@@ -262,6 +262,48 @@ function Home() {
           },
         ]}
       />
+
+      <section id="self-serve" className="scroll-mt-8 border-t-2 border-line">
+        <div className="grid lg:grid-cols-2">
+          <figure className="min-h-80 overflow-hidden lg:min-h-[32rem]">
+            <img
+              src="/product/diy-studio.jpg"
+              alt="A creator running INFLUENTIAL Studio from their own desk"
+              className="h-full w-full object-cover object-center"
+            />
+          </figure>
+          <div className="flex flex-col justify-center px-6 py-12 lg:px-12">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Self-serve · Paid in coins</p>
+            <p className="mt-5 font-display text-[11px] font-extrabold tracking-[0.18em] text-spot">INFLUENTIAL</p>
+            <h2 className="mt-1 font-display text-[clamp(2.4rem,5.4vw,5rem)] font-extrabold uppercase leading-[0.84] tracking-[-0.05em]">
+              Studio
+            </h2>
+            <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted text-pretty">
+              Don't brief the agency. Sit at the desk. Image edit, image-to-video, long scenes, talking video — one coin balance, review before you pay. Fifty coins on signup. No subscription. You make it. You ship it.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={STUDIO_URL} className={cn(buttonVariants({ variant: "heat" }))}>
+                Open the studio
+              </a>
+              <Link to="/start" className={cn(buttonVariants({ variant: "ghost" }))}>
+                Work with us instead
+              </Link>
+            </div>
+          </div>
+        </div>
+        <ul className="grid border-t-2 border-line sm:grid-cols-2 lg:grid-cols-4">
+          {selfServe.map((item) => (
+            <li
+              key={item.n}
+              className="border-b-2 border-line px-6 py-8 sm:border-r-2 lg:border-b-0 lg:last:border-r-0"
+            >
+              <span className="font-display text-2xl font-extrabold tracking-[-0.06em] text-spot">{item.n}</span>
+              <h3 className="mt-2 font-display font-bold uppercase">{item.t}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{item.d}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section id="tools" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-24">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Ways in</p>

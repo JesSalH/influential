@@ -125,3 +125,12 @@ export const locales = [
   { id: "de", label: "German", line: "Eine Aufnahme. Jeder Markt." },
   { id: "ko", label: "Korean", line: "한 번의 촬영. 모든 시장." },
 ] as const;
+
+export const STUDIO_URL = "https://project-eva.lovable.app/";
+
+export const selfServe = [
+  { n: "01", t: "Image editing", d: "Upload a photo. Describe the change. 10 coins — refunded if it fails." },
+  { n: "02", t: "Image to video", d: "A still plus a clip. Review the take. 50 coins, charged only if you accept." },
+  { n: "03", t: "Long scenes", d: "A timed script up to 60s. From 80 coins. Nothing billed until you keep it." },
+  { n: "04", t: "Talking video", d: "Portrait + audio, lip-synced. 15 coins per 10s. Review before you pay." },
+] as const;

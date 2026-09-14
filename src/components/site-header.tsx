@@ -1,14 +1,30 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
+import { STUDIO_URL } from "@/lib/influential";
 
 const nav = [
   { href: "/#avatar", label: "Avatar" },
   { href: "/#video-agent", label: "Video Agent" },
-  { href: "/#studio", label: "Studio" },
+  { href: "/#studio", label: "AI Studio" },
   { href: "/#translation", label: "Translate" },
   { href: "/#contexts", label: "Contexts" },
 ];
+
+function StudioMark({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={STUDIO_URL}
+      className={`group inline-flex flex-col justify-center leading-[0.82] ${className}`}
+      aria-label="INFLUENTIAL Studio — open the self-serve desk"
+    >
+      <span className="font-display text-[10px] font-extrabold tracking-[-0.03em] text-fg">INFLUENTIAL</span>
+      <span className="font-display text-base font-extrabold tracking-[-0.05em] text-spot group-hover:text-heat">
+        Studio
+      </span>
+    </a>
+  );
+}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -19,7 +35,7 @@ export function SiteHeader() {
         INFLUENTIAL
       </Link>
 
-      <nav className="hidden gap-6 md:flex" aria-label="Primary">
+      <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
         {nav.map((item) => (
           <a key={item.href} href={item.href} className="text-muted hover:text-fg">
             {item.label}
@@ -28,7 +44,7 @@ export function SiteHeader() {
       </nav>
 
       <div className="hidden items-center gap-6 md:flex">
-        <span className="text-muted">Vol.01 · USA</span>
+        <StudioMark className="normal-case tracking-normal" />
         <Link
           to="/start"
           className="min-h-11 inline-flex items-center bg-fg px-4 font-display text-[12px] font-bold tracking-[0.06em] text-bg"
@@ -50,6 +66,7 @@ export function SiteHeader() {
       {open ? (
         <div className="absolute inset-x-0 top-full border-b-2 border-line bg-bg px-6 py-6 md:hidden">
           <nav className="flex flex-col gap-4" aria-label="Mobile">
+            <StudioMark className="mb-2 py-2" />
             {nav.map((item) => (
               <a
                 key={item.href}
