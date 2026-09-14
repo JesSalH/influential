@@ -66,6 +66,7 @@ function Home() {
               Start a project
             </Link>
           </div>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-muted">Built and delivered by our studio.</p>
         </div>
       </section>
 
@@ -100,10 +101,11 @@ function Home() {
         title="One identity. Every frame."
         image="/product/speech.jpg"
         alt="Executive delivering a report to the company"
-        cta="Generate an avatar"
+        cta="Talk to us about an avatar"
+        note="We build the face, you brief the character."
         reverse={false}
       >
-        Keep a single, coherent identity across every video you make. The same face, the same micro-expressions, the same presence — whether the cut is thirty seconds or a ten-minute lesson.
+        We keep a single, coherent identity across every video we make for you. The same face, the same micro-expressions, the same presence — whether the cut is thirty seconds or a ten-minute lesson.
       </Split>
       <FeatureStrip
         items={[
@@ -145,10 +147,11 @@ function Home() {
         title="Type the idea. Ship the cut."
         image="/product/agent-prompt.jpg"
         alt="Prompt-to-video in the studio"
-        cta="Generate a video"
+        cta="Talk to us about a video"
+        note="Send us the idea, we turn it into a finished cut."
         reverse
       >
-        Type your idea. Click generate. Get a share-ready video faster than you can think. No camera, editing software, or production skills needed. Visuals, avatar, B-roll, and motion graphics land in one pass.
+        Brief us the idea. We return a share-ready video faster than you'd expect. No camera, editing software, or production skills needed. Visuals, avatar, B-roll, and motion graphics land in one pass.
       </Split>
       <FeatureStrip
         items={[
@@ -187,10 +190,13 @@ function Home() {
         title="Direct the performance in a document."
         image="/product/studio.jpg"
         alt="AI Studio script and preview"
-        cta="Open the studio"
+        cta="Open Influential Studio"
+        ctaHref={STUDIO_URL}
+        external
+        note="Want to direct it yourself? Run it in Influential Studio."
         reverse={false}
       >
-        The central editor is a script. You control tone, pace, gesture, and emotion by writing. Comments, tags, and a Brand Kit sit beside the page so teams mark up a take the way they mark up copy.
+        The central document is a script. You set the tone, pace, gesture and emotion, our team directs the take. Comments, tags, and a Brand Kit sit beside the page so teams mark up a take the way they mark up copy.
       </Split>
       <FeatureStrip
         items={[
@@ -228,7 +234,8 @@ function Home() {
         title="One recording. Every market."
         image="/product/translate.jpg"
         alt="Avatar localized for a new market"
-        cta="Translate a video"
+        cta="Talk to us about translation"
+        note="One recording, we localize it everywhere you sell."
         reverse
       >
         AI video translation that keeps your tone, locks your lips, and reaches global audiences in 175+ languages and dialects — no reshoot, no manual dub.
@@ -376,6 +383,9 @@ function Home() {
           <h2 className="mt-3 max-w-4xl font-display text-[clamp(2.25rem,5vw,4.2rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
             The face has to be yours.
           </h2>
+          <p className="mt-4 max-w-prose text-sm leading-relaxed text-muted text-pretty">
+            A team reviews every asset before it ships, this isn't a self-serve render.
+          </p>
           <p className="mt-5 mb-10 max-w-prose text-muted text-pretty">
             AI video has a consent problem. INFLUENTIAL treats likeness, brand language, and the edit as things you keep — not a model we train on in the dark.
           </p>
@@ -383,7 +393,7 @@ function Home() {
         <div className="grid border-t-2 border-line md:grid-cols-3">
           <Ethics
             t="Verified likeness"
-            d="A custom avatar starts with on-camera consent from the person depicted. No stolen face, no scrape. Removal requests are honored."
+            d="We only build avatars we have the rights to use. No stolen face, no scrape. Removal requests are honored."
           />
           <Ethics
             t="Brand glossary"
@@ -532,6 +542,9 @@ function Split({
   alt,
   reverse,
   cta,
+  ctaHref = "/start",
+  external,
+  note,
   children,
 }: {
   id: string;
@@ -542,8 +555,12 @@ function Split({
   alt: string;
   reverse?: boolean;
   cta: string;
+  ctaHref?: string;
+  external?: boolean;
+  note?: string;
   children: string;
 }) {
+  const ctaClass = cn(buttonVariants({ variant: "heat" }), "w-full sm:w-auto");
   return (
     <section id={id} className="scroll-mt-8 grid border-t-2 border-line lg:grid-cols-2">
       <div className={cn("flex flex-col", reverse && "lg:order-2")}>
@@ -551,9 +568,16 @@ function Split({
           <img src={image} alt={alt} className="h-full w-full object-cover object-top" />
         </figure>
         <div className="border-t-2 border-line px-6 py-4">
-          <Link to="/start" className={cn(buttonVariants({ variant: "heat" }), "w-full sm:w-auto")}>
-            {cta}
-          </Link>
+          {note ? <p className="mb-3 max-w-prose text-sm leading-relaxed text-muted">{note}</p> : null}
+          {external ? (
+            <a href={ctaHref} target="_blank" rel="noopener noreferrer" className={ctaClass}>
+              {cta}
+            </a>
+          ) : (
+            <Link to={ctaHref} className={ctaClass}>
+              {cta}
+            </Link>
+          )}
         </div>
       </div>
       <div className={cn("flex flex-col justify-center px-6 py-12 lg:px-12", reverse && "lg:order-1")}>
