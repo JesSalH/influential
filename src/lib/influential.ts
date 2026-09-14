@@ -42,6 +42,8 @@ export const pillars = [
     n: "01",
     name: "AI Avatar Generator",
     lede: "Hyper-real faces that lock. Same identity across every angle, language, and cut.",
+    detail:
+      "Trained on how a person talks, gestures, and holds a frame. One recording becomes wides, mediums, and close-ups that still read as the same human — no drift, no valley.",
     image: "/product/avatar-face.jpg",
   },
   {
@@ -49,6 +51,8 @@ export const pillars = [
     n: "02",
     name: "Video Agent",
     lede: "Type the idea. The agent returns a finished video — avatar, B-roll, type, audio.",
+    detail:
+      "Prompt to picture: A-roll presenter, B-roll, motion graphics, captions. Then it stays editable in Studio — change type, color, and timing without rendering from scratch.",
     image: "/product/agent-prompt.jpg",
   },
   {
@@ -56,13 +60,33 @@ export const pillars = [
     n: "03",
     name: "AI Studio",
     lede: "A document that directs. Tone, pace, gesture, and brand in one page.",
+    detail:
+      "Script-driven control. Voice Director, Voice Mirroring, Gesture Control, Brand Kit, auto captions, and multiplayer comments — video as easy as writing a document.",
     image: "/product/studio.jpg",
   },
   {
     id: "translation",
     n: "04",
     name: "Video Translation",
-    lede: "Clone the voice, lock the lips, ship 100+ languages from one recording.",
+    lede: "Clone the voice, lock the lips, ship 175+ languages from one recording.",
+    detail:
+      "Upload a file or paste a YouTube link. Voice clone + phoneme lip-sync, brand glossary, multilingual player. Dub a finished cut or regenerate the project natively in each language.",
     image: "/product/translate.jpg",
   },
+] as const;
+
+export const tools = [
+  { name: "Text to Video", href: "/#video-agent" },
+  { name: "Image to Video", href: "/#video-agent" },
+  { name: "AI Avatars", href: "/#avatar" },
+  { name: "AI Studio", href: "/#studio" },
+  { name: "Video Translate", href: "/#translation" },
+  { name: "Audio to Video", href: "/#studio" },
+] as const;
+
+export const locales = [
+  { id: "en", label: "English", line: "One recording. Every market." },
+  { id: "es", label: "Spanish", line: "Una grabación. Todos los mercados." },
+  { id: "de", label: "German", line: "Eine Aufnahme. Jeder Markt." },
+  { id: "ko", label: "Korean", line: "한 번의 촬영. 모든 시장." },
 ] as const;
