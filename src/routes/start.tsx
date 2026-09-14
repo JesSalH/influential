@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { CONTACT_EMAIL } from "@/lib/influential";
+import { sendBrief } from "@/lib/send-brief";
 
 export const Route = createFileRoute("/start")({ component: StartPage });
 
@@ -21,34 +21,19 @@ function StartPage() {
       setSent(true);
       return;
     }
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const company = String(data.get("company") ?? "").trim();
-    const brief = String(data.get("brief") ?? "").trim();
     setSending(true);
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          _replyto: email,
-          company: company || "—",
-          brief,
-          _subject: `INFLUENTIAL brief — ${name}`,
-          _template: "table",
-          _captcha: "false",
-        }),
+      await sendBrief({
+        data: {
+          name: String(data.get("name") ?? "").trim(),
+          email: String(data.get("email") ?? "").trim(),
+          company: String(data.get("company") ?? "").trim(),
+          brief: String(data.get("brief") ?? "").trim(),
+        },
       });
-      const json = (await res.json()) as { success?: string | boolean; message?: string };
-      const activating = /activation/i.test(String(json.message ?? ""));
-      if (!activating && (!res.ok || json.success === "false" || json.success === false)) {
-        throw new Error("rejected");
-      }
       setSent(true);
     } catch {
-      setError(`The brief didn't go through. Email us at ${CONTACT_EMAIL}.`);
+      setError("The brief didn't go through. Try again in a minute.");
     } finally {
       setSending(false);
     }
