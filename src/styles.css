@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0a0a;
+  --color-fg: #f2f2f0;
+  --color-muted: #8a8a86;
+  --color-line: #f2f2f0;
+  --color-spot: #c43b32;
+  --color-spot-fg: #f2f2f0;
+  --color-heat: #f15a24;
+  --color-heat-fg: #0a0a0a;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --radius-none: 0px;
+  --radius-pill: 999px;
+  --aspect-reel: 9 / 16;
+}
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-spot);
+    color: var(--color-fg);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.07em;
+    line-height: 0.78;
+    color: var(--color-fg);
+    -webkit-text-stroke: 0.02em var(--color-fg);
+    paint-order: stroke fill;
+    text-shadow:
+      0.018em 0.018em 0 #d0d0cc,
+      0.036em 0.036em 0 #9a9a96,
+      0.054em 0.054em 0 #4a4a48,
+      0.075em 0.075em 0 #161614;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
