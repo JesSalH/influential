@@ -31,12 +31,12 @@ function Home() {
       <HeroShots />
 
       <section id="contexts" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-20">
-        <div className="mb-10 max-w-3xl">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
           <p className="text-[11px] uppercase tracking-[0.22em] text-muted">One avatar, every vertical</p>
           <h2 className="mt-3 font-display text-[clamp(2.25rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
             Dressed for the vertical.
           </h2>
-          <p className="mt-5 max-w-prose text-muted text-pretty">
+          <p className="mx-auto mt-5 max-w-prose text-muted text-pretty">
             The same identity, recut for the industry in front of it. Social content, online courses, legal, finance, real estate — new set, wardrobe, and caption. No recast. Native 9:16 for TikTok, Reels, and Stories.
           </p>
         </div>
