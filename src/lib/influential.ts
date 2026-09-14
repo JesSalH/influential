@@ -81,12 +81,42 @@ export const pillars = [
 ] as const;
 
 export const tools = [
-  { name: "Text to Video", href: "/#video-agent" },
-  { name: "Image to Video", href: "/#video-agent" },
-  { name: "AI Avatars", href: "/#avatar" },
-  { name: "AI Studio", href: "/#studio" },
-  { name: "Video Translate", href: "/#translation" },
-  { name: "Audio to Video", href: "/#studio" },
+  {
+    name: "Text to Video",
+    href: "/#video-agent",
+    jump: "Video Agent",
+    blurb: "Write a script or a one-line brief. The agent returns a finished cut: avatar, voice, B-roll, type.",
+  },
+  {
+    name: "Image to Video",
+    href: "/#video-agent",
+    jump: "Video Agent",
+    blurb: "Start from a still. Lip-sync, motion, and a spoken line — the photo becomes a take.",
+  },
+  {
+    name: "AI Avatars",
+    href: "/#avatar",
+    jump: "Avatar Generator",
+    blurb: "Lock a face that holds. Same identity across angles, runtimes, and languages.",
+  },
+  {
+    name: "AI Studio",
+    href: "/#studio",
+    jump: "AI Studio",
+    blurb: "A document that directs. Tone, gesture, captions, and brand live on the page.",
+  },
+  {
+    name: "Video Translate",
+    href: "/#translation",
+    jump: "Translation",
+    blurb: "One recording, 175+ languages. Voice cloned, lips locked, no reshoot.",
+  },
+  {
+    name: "Audio to Video",
+    href: "/#studio",
+    jump: "AI Studio",
+    blurb: "Drop a podcast or a voice-over. A presenter appears on camera and speaks the file.",
+  },
 ] as const;
 
 export const locales = [

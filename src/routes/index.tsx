@@ -267,17 +267,29 @@ function Home() {
         <ReelRow />
       </section>
 
-      <section className="border-t-2 border-line px-6 py-12" aria-label="Tools">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-muted">From idea to every format</p>
-        <ul className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+      <section id="tools" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-24">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Ways in</p>
+        <h2 className="mt-3 max-w-4xl font-display text-[clamp(2.25rem,5vw,4.2rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
+          Six doors. One studio.
+        </h2>
+        <p className="mt-5 max-w-prose text-muted text-pretty">
+          Each card is an entry point — not a separate product. It jumps to the pillar that does that job, so you can start from a script, a still, a face, or a finished film.
+        </p>
+        <ul className="mt-10 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
-            <li key={tool.name}>
+            <li key={tool.name} className="bg-bg">
               <a
                 href={tool.href}
-                className="group flex min-h-24 items-end border-2 border-line px-4 py-4 transition-[border-color,background-color] duration-200 ease-out hover:border-heat hover:bg-heat/10"
+                className="group flex h-full flex-col justify-between px-6 py-8 transition-colors duration-200 hover:bg-heat/10"
               >
-                <span className="font-display text-sm font-bold uppercase tracking-[-0.03em] group-hover:text-heat">
-                  {tool.name}
+                <div>
+                  <h3 className="font-display text-lg font-bold uppercase tracking-[-0.03em] group-hover:text-heat">
+                    {tool.name}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted group-hover:text-fg">{tool.blurb}</p>
+                </div>
+                <span className="mt-6 text-[11px] uppercase tracking-[0.16em] text-muted group-hover:text-heat">
+                  Jump to {tool.jump} →
                 </span>
               </a>
             </li>
@@ -285,43 +297,65 @@ function Home() {
         </ul>
       </section>
 
-      <section className="grid border-t-2 border-line md:grid-cols-3">
-        <Step
-          n="01"
-          t="Lock the face"
-          href="/#avatar"
-          d="Generate an avatar with character consistency."
-          detail="Same identity across every angle and language. This is the lock before you write a single line."
-        />
-        <Step
-          n="02"
-          t="Write the show"
-          href="/#video-agent"
-          d="Prompt the Video Agent or direct in Studio."
-          detail="Tone, gesture, captions, and brand — directed from a prompt or from a document."
-        />
-        <Step
-          n="03"
-          t="Ship every market"
-          href="/#translation"
-          d="Translate with cloned voice and lip-sync."
-          detail="One script, a hundred dialects. The performance travels; the face does not get recast."
-        />
+      <section id="how" className="scroll-mt-8 border-t-2 border-line">
+        <div className="px-6 pt-16 md:pt-20">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-muted">How a project ships</p>
+          <h2 className="mt-3 max-w-4xl font-display text-[clamp(2.25rem,5vw,4.2rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
+            Three moves. Then it is out.
+          </h2>
+          <p className="mt-5 mb-10 max-w-prose text-muted text-pretty">
+            The order is the product. Lock the identity first, write the performance second, localize last. Skip a step and the face drifts or the market gets a recast.
+          </p>
+        </div>
+        <div className="grid border-t-2 border-line md:grid-cols-3">
+          <Step
+            n="01"
+            t="Lock the face"
+            href="/#avatar"
+            d="Generate an avatar with character consistency that survives every angle and language."
+            detail="This is the lock before you write a single line. Same identity in a 30-second clip and a 10-minute module."
+          />
+          <Step
+            n="02"
+            t="Write the show"
+            href="/#video-agent"
+            d="Prompt the Video Agent for a finished cut, or direct tone, gesture, and captions in Studio."
+            detail="A-roll, B-roll, type, brand. The draft stays editable — you do not render from scratch to change a line."
+          />
+          <Step
+            n="03"
+            t="Ship every market"
+            href="/#translation"
+            d="Translate with a cloned voice and phoneme lip-sync. One recording, 175+ languages."
+            detail="The performance travels. The face is not recast. Brand glossary keeps the name the name."
+          />
+        </div>
       </section>
 
-      <section className="grid border-t-2 border-line md:grid-cols-3">
-        <Ethics
-          t="Verified likeness"
-          d="A custom avatar starts with consent. No stolen face. Removal requests are honored."
-        />
-        <Ethics
-          t="Brand glossary"
-          d="Forced translations and do-not-translate terms travel with every market — the name stays the name."
-        />
-        <Ethics
-          t="Editable after generate"
-          d="Video Agent drafts open in Studio. Type, color, and timing stay live. No render-from-scratch tax."
-        />
+      <section id="trust" className="scroll-mt-8 border-t-2 border-line">
+        <div className="px-6 pt-16 md:pt-20">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Trust</p>
+          <h2 className="mt-3 max-w-4xl font-display text-[clamp(2.25rem,5vw,4.2rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
+            The face has to be yours.
+          </h2>
+          <p className="mt-5 mb-10 max-w-prose text-muted text-pretty">
+            AI video has a consent problem. INFLUENTIAL treats likeness, brand language, and the edit as things you keep — not a model we train on in the dark.
+          </p>
+        </div>
+        <div className="grid border-t-2 border-line md:grid-cols-3">
+          <Ethics
+            t="Verified likeness"
+            d="A custom avatar starts with on-camera consent from the person depicted. No stolen face, no scrape. Removal requests are honored."
+          />
+          <Ethics
+            t="Brand glossary"
+            d="Do-not-translate terms and forced translations travel with every market. Product names, legal lines, and the house style stay intact."
+          />
+          <Ethics
+            t="You keep the edit"
+            d="A Video Agent draft opens in Studio. Type, color, and timing stay live. You are not locked into a one-shot render."
+          />
+        </div>
       </section>
 
       <section className="grid border-t-2 border-line lg:grid-cols-2">
@@ -542,10 +576,10 @@ function Step({
         {n}
       </div>
       <h3 className="mt-3 font-display font-bold uppercase group-hover:text-heat">{t}</h3>
-      <p className="mt-3 max-w-prose leading-relaxed text-muted group-hover:hidden">{d}</p>
-      <p className="mt-3 hidden max-w-prose leading-relaxed text-fg group-hover:block">{detail}</p>
-      <span className={cn(buttonVariants({ variant: "heat" }), "mt-6 pointer-events-none opacity-0 transition-opacity duration-200 group-hover:opacity-100")}>
-        Open
+      <p className="mt-3 max-w-prose leading-relaxed text-muted">{d}</p>
+      <p className="mt-3 hidden max-w-prose text-sm leading-relaxed text-fg group-hover:block">{detail}</p>
+      <span className="mt-6 text-[11px] uppercase tracking-[0.16em] text-muted group-hover:text-heat">
+        Jump to this step →
       </span>
     </a>
   );
