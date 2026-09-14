@@ -16,9 +16,9 @@ function Home() {
     <div className="min-h-screen overflow-x-hidden bg-bg text-fg">
       <SiteHeader />
 
-      <section className="px-6 pt-4">
+      <section className="px-6 pt-4 [container-type:inline-size]">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Vol.01 · AI influencer studio</p>
-        <h1 className="wordmark mt-5 text-[clamp(3.4rem,13vw,11.5rem)]">INFLUENTIAL</h1>
+        <h1 className="wordmark mt-5">INFLUENTIAL</h1>
         <p className="mt-5 font-display text-[clamp(2.6rem,9.5vw,8.5rem)] font-extrabold uppercase leading-[0.78] tracking-[-0.06em]">
           The most
           <br />

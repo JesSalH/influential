@@ -48,19 +48,24 @@
 
 @layer components {
   .wordmark {
+    display: block;
+    width: 100%;
     font-family: var(--font-display);
     font-weight: 800;
+    font-size: clamp(1.6rem, 8.1vw, 11.5rem);
+    font-size: clamp(1.6rem, 9.4cqi, 11.5rem);
     text-transform: uppercase;
-    letter-spacing: -0.07em;
+    letter-spacing: -0.08em;
     line-height: 0.78;
+    white-space: nowrap;
     color: var(--color-fg);
-    -webkit-text-stroke: 0.02em var(--color-fg);
+    -webkit-text-stroke: 0.018em var(--color-fg);
     paint-order: stroke fill;
     text-shadow:
-      0.018em 0.018em 0 #d0d0cc,
-      0.036em 0.036em 0 #9a9a96,
-      0.054em 0.054em 0 #4a4a48,
-      0.075em 0.075em 0 #161614;
+      0.014em 0.014em 0 #d0d0cc,
+      0.028em 0.028em 0 #9a9a96,
+      0.042em 0.042em 0 #4a4a48,
+      0.06em 0.06em 0 #161614;
   }
 }
 
