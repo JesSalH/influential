@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { buttonVariants } from "@/components/ui/button";
 import { locales, pillars, tools } from "@/lib/influential";
+import { useRotate } from "@/lib/use-rotate";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -27,11 +28,19 @@ function Home() {
         </p>
       </section>
 
-      <section className="mt-8 grid grid-cols-2 gap-2 px-6 md:grid-cols-4">
-        <Shot src="/talent/sable.jpg" video="/loops/sable.mp4" alt="INFLUENTIAL avatar, fashion" />
-        <Shot src="/talent/ash.jpg" video="/loops/ash.mp4" alt="INFLUENTIAL avatar, editorial" />
-        <Shot src="/talent/lina.jpg" video="/loops/lina.mp4" alt="INFLUENTIAL avatar, lifestyle" />
-        <Shot src="/talent/kai.jpg" video="/loops/kai.mp4" alt="INFLUENTIAL avatar, campaign" />
+      <HeroShots />
+
+      <section id="contexts" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-muted">One avatar, every vertical</p>
+          <h2 className="mt-3 font-display text-[clamp(2.25rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
+            Dressed for the vertical.
+          </h2>
+          <p className="mt-5 max-w-prose text-muted text-pretty">
+            The same identity, recut for the industry in front of it. Social content, online courses, legal, finance, real estate — new set, wardrobe, and caption. No recast. Native 9:16 for TikTok, Reels, and Stories.
+          </p>
+        </div>
+        <ReelRow />
       </section>
 
       <div className="mx-6 mt-4 flex flex-col gap-2 border-y-2 border-line py-3.5 text-xs uppercase tracking-[0.12em] md:flex-row md:items-center md:justify-between">
@@ -254,19 +263,6 @@ function Home() {
         ]}
       />
 
-      <section id="contexts" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-24">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-muted">One avatar, a thousand contexts</p>
-          <h2 className="mt-3 font-display text-[clamp(2.25rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
-            Dressed for the vertical.
-          </h2>
-          <p className="mx-auto mt-5 max-w-prose text-muted text-pretty">
-            Hover a card. The still becomes a 6-second loop — same identity, talking. Native 9:16, the frame of TikTok, Reels, and Stories.
-          </p>
-        </div>
-        <ReelRow />
-      </section>
-
       <section id="tools" className="scroll-mt-8 border-t-2 border-line px-6 py-16 md:py-24">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted">Ways in</p>
         <h2 className="mt-3 max-w-4xl font-display text-[clamp(2.25rem,5vw,4.2rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em]">
@@ -448,16 +444,40 @@ function Ethics({ t, d }: { t: string; d: string }) {
   );
 }
 
-function Shot({ src, video, alt }: { src: string; video?: string; alt: string }) {
-  const [on, setOn] = useState(false);
+function HeroShots() {
+  const shots = [
+    { src: "/talent/sable.jpg", video: "/loops/sable.mp4", alt: "INFLUENTIAL avatar, fashion" },
+    { src: "/talent/ash.jpg", video: "/loops/ash.mp4", alt: "INFLUENTIAL avatar, editorial" },
+    { src: "/talent/lina.jpg", video: "/loops/lina.mp4", alt: "INFLUENTIAL avatar, lifestyle" },
+    { src: "/talent/kai.jpg", video: "/loops/kai.mp4", alt: "INFLUENTIAL avatar, campaign" },
+  ] as const;
+  const { active, enter, leave } = useRotate(shots.length);
+
   return (
-    <figure
-      className="relative min-h-52 overflow-hidden md:min-h-[28rem]"
-      onMouseEnter={() => setOn(true)}
-      onMouseLeave={() => setOn(false)}
-    >
-      <HoverLoop poster={src} src={video} alt={alt} playing={on} className="h-full min-h-52 md:min-h-[28rem]" />
-    </figure>
+    <section className="mt-8 grid grid-cols-2 gap-2 px-6 md:grid-cols-4">
+      {shots.map((shot, i) => {
+        const on = i === active;
+        return (
+          <figure
+            key={shot.src}
+            className={cn(
+              "relative min-h-52 overflow-hidden border-2 md:min-h-[28rem] transition-colors duration-200",
+              on ? "border-heat" : "border-transparent",
+            )}
+            onPointerEnter={() => enter(i)}
+            onPointerLeave={leave}
+          >
+            <HoverLoop
+              poster={shot.src}
+              src={shot.video}
+              alt={shot.alt}
+              playing={on}
+              className="h-full min-h-52 md:min-h-[28rem]"
+            />
+          </figure>
+        );
+      })}
+    </section>
   );
 }
 

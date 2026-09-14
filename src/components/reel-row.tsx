@@ -1,26 +1,27 @@
-import { useState } from "react";
 import { HoverLoop } from "@/components/hover-loop";
 import { reels } from "@/lib/influential";
+import { useRotate } from "@/lib/use-rotate";
 import { cn } from "@/lib/utils";
 
 export function ReelRow() {
-  const [active, setActive] = useState<(typeof reels)[number]["id"]>("courses");
-  const current = reels.find((r) => r.id === active) ?? reels[1];
+  const { active, enter, leave, tap } = useRotate(reels.length);
+  const current = reels[active] ?? reels[0];
 
   return (
     <div>
       <ul className="flex justify-start gap-3 overflow-x-auto pb-3 md:justify-center">
-        {reels.map((reel) => {
-          const on = reel.id === active;
+        {reels.map((reel, i) => {
+          const on = i === active;
           return (
             <li key={reel.id} className="w-52 shrink-0 sm:w-56">
               <button
                 type="button"
-                onClick={() => setActive(reel.id)}
-                onMouseEnter={() => setActive(reel.id)}
+                onClick={() => tap(i)}
+                onPointerEnter={() => enter(i)}
+                onPointerLeave={leave}
                 className={cn(
                   "group relative block w-full overflow-hidden border-2 text-left transition-[transform,border-color] duration-200 ease-out",
-                  on ? "border-spot" : "border-line hover:border-fg",
+                  on ? "border-heat" : "border-line hover:border-fg",
                 )}
               >
                 <span className="relative block aspect-reel overflow-hidden">
@@ -39,7 +40,7 @@ export function ReelRow() {
                     {reel.label}
                   </span>
                   {on ? (
-                    <span className="absolute top-3 right-3 size-2.5 rounded-pill bg-spot" aria-hidden />
+                    <span className="absolute top-3 right-3 size-2.5 rounded-pill bg-heat" aria-hidden />
                   ) : null}
                 </span>
               </button>
@@ -48,7 +49,7 @@ export function ReelRow() {
         })}
       </ul>
       <div className="mx-auto mt-8 max-w-xl border-t-2 border-line pt-6 text-center">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-spot">{current.label}</p>
+        <p className="text-[11px] uppercase tracking-[0.22em] text-heat">{current.label}</p>
         <p className="mt-3 text-base leading-relaxed text-muted text-pretty">{current.blurb}</p>
       </div>
     </div>
