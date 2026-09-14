@@ -2,7 +2,9 @@
 
 AI influencer studio. Create hyper-real presenters, generate finished video from a prompt, direct performance in a document, and ship the same face in 175+ languages.
 
-Live prototype: [swift-orbit-giant-river.grok.me](https://swift-orbit-giant-river.grok.me/)
+Live prototype (needs a Grok login): [swift-orbit-giant-river.grok.me](https://swift-orbit-giant-river.grok.me/)
+
+Design screenshots (no login): [`docs/preview/`](docs/preview/)
 
 ## Product
 
