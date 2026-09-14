@@ -5,6 +5,7 @@ export const reels = [
     caption: "WWDC just happened.",
     blurb: "Casual at home. Native to TikTok, Reels, and Stories — captions already in the frame.",
     image: "/reels/social.jpg",
+    video: "/loops/social.mp4",
   },
   {
     id: "courses",
@@ -12,6 +13,7 @@ export const reels = [
     caption: "Lesson 04 — keep going.",
     blurb: "Bright room, teaching cadence. The same face that sold a product now holds a ten-minute module.",
     image: "/reels/courses.jpg",
+    video: "/loops/courses.mp4",
   },
   {
     id: "legal",
@@ -19,6 +21,7 @@ export const reels = [
     caption: "Not a formula.",
     blurb: "Law library, navy blazer. Authority without a booth day or a second actor.",
     image: "/reels/legal.jpg",
+    video: "/loops/legal.mp4",
   },
   {
     id: "finance",
@@ -26,6 +29,7 @@ export const reels = [
     caption: "Zero account minimums.",
     blurb: "Charts behind, papers in reach. A closer who never misses a compliance line.",
     image: "/reels/finance.jpg",
+    video: "/loops/finance.mp4",
   },
   {
     id: "real-estate",
@@ -33,6 +37,7 @@ export const reels = [
     caption: "The kind of house made for hosting.",
     blurb: "Luxury kitchen, hosting energy. One avatar, dressed for the listing.",
     image: "/reels/real-estate.jpg",
+    video: "/loops/real-estate.mp4",
   },
 ] as const;
 

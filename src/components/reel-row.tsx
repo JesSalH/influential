@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { HoverLoop } from "@/components/hover-loop";
 import { reels } from "@/lib/influential";
 import { cn } from "@/lib/utils";
 
@@ -23,10 +24,12 @@ export function ReelRow() {
                 )}
               >
                 <span className="relative block aspect-reel overflow-hidden">
-                  <img
-                    src={reel.image}
+                  <HoverLoop
+                    poster={reel.image}
+                    src={reel.video}
                     alt={`${reel.label} avatar in context`}
-                    className="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105"
+                    playing={on}
+                    className="h-full"
                   />
                   <span className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg/85 via-bg/10 to-transparent" />
                   <span className="absolute inset-x-3 top-1/2 -translate-y-1/2 text-center font-display text-xl font-extrabold leading-[0.95] tracking-[-0.04em] text-balance">

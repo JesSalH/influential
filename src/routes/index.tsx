@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { HoverLoop } from "@/components/hover-loop";
 import { ReelRow } from "@/components/reel-row";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -27,10 +28,10 @@ function Home() {
       </section>
 
       <section className="mt-8 grid grid-cols-2 gap-2 px-6 md:grid-cols-4">
-        <Shot src="/talent/sable.jpg" alt="INFLUENTIAL avatar, fashion" />
-        <Shot src="/talent/ash.jpg" alt="INFLUENTIAL avatar, editorial" />
-        <Shot src="/talent/lina.jpg" alt="INFLUENTIAL avatar, lifestyle" />
-        <Shot src="/talent/kai.jpg" alt="INFLUENTIAL avatar, campaign" />
+        <Shot src="/talent/sable.jpg" video="/loops/sable.mp4" alt="INFLUENTIAL avatar, fashion" />
+        <Shot src="/talent/ash.jpg" video="/loops/ash.mp4" alt="INFLUENTIAL avatar, editorial" />
+        <Shot src="/talent/lina.jpg" video="/loops/lina.mp4" alt="INFLUENTIAL avatar, lifestyle" />
+        <Shot src="/talent/kai.jpg" video="/loops/kai.mp4" alt="INFLUENTIAL avatar, campaign" />
       </section>
 
       <div className="mx-6 mt-4 flex flex-col gap-2 border-y-2 border-line py-3.5 text-xs uppercase tracking-[0.12em] md:flex-row md:items-center md:justify-between">
@@ -260,7 +261,7 @@ function Home() {
             Dressed for the vertical.
           </h2>
           <p className="mx-auto mt-5 max-w-prose text-muted text-pretty">
-            Hover or tap a card. Same identity, new wardrobe and set. Native 9:16 — the frame of TikTok, Reels, and Stories — so each industry sees itself in seconds, without five paragraphs of copy.
+            Hover a card. The still becomes a 6-second loop — same identity, talking. Native 9:16, the frame of TikTok, Reels, and Stories.
           </p>
         </div>
         <ReelRow />
@@ -413,10 +414,15 @@ function Ethics({ t, d }: { t: string; d: string }) {
   );
 }
 
-function Shot({ src, alt }: { src: string; alt: string }) {
+function Shot({ src, video, alt }: { src: string; video?: string; alt: string }) {
+  const [on, setOn] = useState(false);
   return (
-    <figure className="relative min-h-52 overflow-hidden md:min-h-[28rem]">
-      <img src={src} alt={alt} className="h-full w-full object-cover" />
+    <figure
+      className="relative min-h-52 overflow-hidden md:min-h-[28rem]"
+      onMouseEnter={() => setOn(true)}
+      onMouseLeave={() => setOn(false)}
+    >
+      <HoverLoop poster={src} src={video} alt={alt} playing={on} className="h-full min-h-52 md:min-h-[28rem]" />
     </figure>
   );
 }
