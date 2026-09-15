@@ -126,7 +126,7 @@ export const locales = [
   { id: "ko", label: "Korean", line: "한 번의 촬영. 모든 시장." },
 ] as const;
 
-export const STUDIO_URL = "https://project-eva.lovable.app/";
+export const STUDIO_URL = "https://video.influentiallabs.studio/";
 
 export const selfServe = [
   { n: "01", t: "Image editing", d: "Upload a photo. Describe the change. 10 coins — refunded if it fails." },

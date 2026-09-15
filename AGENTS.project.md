@@ -1,18 +1,32 @@
 # INFLUENTIAL LABS — plan del proyecto
 
-Plataforma de creación de influencers / avatares de IA. Prototipo experimental.
-Idioma de producto: **inglés de EE. UU.**
-Diseño: **C Vol.01** (revista brutalista: Syne + Outfit, negro, rojo spot `#c43b32`).
-Fotos de talento: **siempre en color** (nunca grayscale).
+Agencia de avatares / vídeo con IA. El visitante nos briefa; el equipo produce.
+Excepción self-serve: **INFLUENTIAL LABS Studio** (Lovable), créditos.
 
-Fuente de verdad: GitHub. Publicar a grok.me solo cuando el usuario lo pida. Auth y DB: OFF.
+- Producto: inglés de EE. UU.
+- Marca: **INFLUENTIAL** blanco + **LABS** rojo (`#c43b32`), Vol.01
+- Dominio: https://influentiallabs.studio (Grok)
+- Studio: https://video.influentiallabs.studio
+- Código: https://github.com/JesSalH/influential
+- Briefs: garvielcontact@proton.me
 
-## Fases
+Auth y DB: OFF en la landing. Publicar a grok.me solo cuando el usuario lo pida.
 
-1. **Web (en curso)** — Landing larga: 4 pilares (Avatar Generator, Video Agent, AI Studio, Video Translation) + carousel “one avatar, thousand contexts”.
-2. Chat en la landing (después).
-3. GitHub + grok.me
-4. Local
-5. Teléfono: Grok Voice + ElevenLabs (después de la landing)
-6. Agente Python
-7. OpenClaw / Ollama más adelante
+## Hecho
+
+1. Landing larga, 4 pilares, carousel, loops, CTAs de agencia
+2. Studio en el nav + sección self-serve
+3. Formulario `/start` → Proton
+4. GitHub público + README
+5. Dominio Cloudflare `influentiallabs.studio` (+ www)
+6. Rebrand INFLUENTIAL LABS
+
+## Siguiente
+
+7. ~~Cerrar Studio en el subdominio~~ **hecho** — `video.influentiallabs.studio`
+8. **Chat en la landing** — widget autoalojado, código en GitHub
+9. **Local** (opcional, para ti) — clonar el repo y ver la web en tu máquina sin Grok
+10. **Teléfono** — prueba ElevenLabs + Grok Voice
+11. **Agente Python** — LangChain/LangGraph detrás de HTTP
+12. **OpenClaw / WhatsApp / Telegram**
+13. **Ollama / agentes propios**
