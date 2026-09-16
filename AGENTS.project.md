@@ -8,7 +8,7 @@ Excepción self-serve: **INFLUENTIAL LABS Studio** (Lovable), créditos.
 - Dominio: https://influentiallabs.studio (Grok)
 - Studio: https://video.influentiallabs.studio
 - Código: https://github.com/JesSalH/influential
-- Briefs: garvielcontact@proton.me
+- Briefs: Proton (inbox only in server env, not in GitHub)
 
 Auth y DB: OFF en la landing. Publicar a grok.me solo cuando el usuario lo pida.
 
