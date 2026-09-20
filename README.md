@@ -36,7 +36,7 @@ Leave that terminal open. First boot prints `bundling dependencies...` and can s
 
 ### Windows (PowerShell)
 
-If `npm` dies with *running scripts is disabled*:
+If `npm` dies with _running scripts is disabled_:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned

@@ -11,5 +11,5 @@ import type { ReactNode } from "react";
  * (e.g. a toast or theme provider) without churning the root shell.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+    return <>{children}</>;
 }

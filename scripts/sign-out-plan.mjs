@@ -41,7 +41,7 @@ export const DEPLOYED_SIGN_OUT_TIMEOUT_MS = 10_000;
  * @returns {number}
  */
 export function signOutTimeoutMs(livePreview) {
-  return livePreview ? PREVIEW_SIGN_OUT_TIMEOUT_MS : DEPLOYED_SIGN_OUT_TIMEOUT_MS;
+    return livePreview ? PREVIEW_SIGN_OUT_TIMEOUT_MS : DEPLOYED_SIGN_OUT_TIMEOUT_MS;
 }
 
 /**
@@ -53,22 +53,22 @@ export function signOutTimeoutMs(livePreview) {
  * @returns {Promise<"ok" | "failed" | "timeout">}
  */
 export function settleWithin(start, timeoutMs) {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => resolve("timeout"), timeoutMs);
-    /** @param {"ok" | "failed"} outcome */
-    const done = (outcome) => {
-      clearTimeout(timer);
-      resolve(outcome);
-    };
-    try {
-      Promise.resolve(start()).then(
-        () => done("ok"),
-        () => done("failed"),
-      );
-    } catch {
-      done("failed");
-    }
-  });
+    return new Promise((resolve) => {
+        const timer = setTimeout(() => resolve("timeout"), timeoutMs);
+        /** @param {"ok" | "failed"} outcome */
+        const done = (outcome) => {
+            clearTimeout(timer);
+            resolve(outcome);
+        };
+        try {
+            Promise.resolve(start()).then(
+                () => done("ok"),
+                () => done("failed"),
+            );
+        } catch {
+            done("failed");
+        }
+    });
 }
 
 /**
@@ -92,34 +92,34 @@ export function settleWithin(start, timeoutMs) {
  * @returns {Promise<void>}
  */
 export async function runSignOut({
-  livePreview,
-  hasBearer,
-  requestSignOut,
-  clearToken,
-  redirect,
-  timeoutMs,
+    livePreview,
+    hasBearer,
+    requestSignOut,
+    clearToken,
+    redirect,
+    timeoutMs,
 }) {
-  if (livePreview) {
-    // No bearer means a partitioned iframe with nothing to invalidate; with one,
-    // still invalidate it server-side, just don't block on the answer.
-    if (hasBearer) {
-      await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
+    if (livePreview) {
+        // No bearer means a partitioned iframe with nothing to invalidate; with one,
+        // still invalidate it server-side, just don't block on the answer.
+        if (hasBearer) {
+            await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
+        }
+        clearToken();
+        redirect();
+        return;
+    }
+
+    const outcome = await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
+    if (outcome !== "ok") {
+        throw new Error(
+            outcome === "timeout"
+                ? "Sign-out timed out — you are still signed in. Please try again."
+                : "Sign-out failed — you are still signed in. Please try again.",
+        );
     }
     clearToken();
     redirect();
-    return;
-  }
-
-  const outcome = await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
-  if (outcome !== "ok") {
-    throw new Error(
-      outcome === "timeout"
-        ? "Sign-out timed out — you are still signed in. Please try again."
-        : "Sign-out failed — you are still signed in. Please try again.",
-    );
-  }
-  clearToken();
-  redirect();
 }
 
 /**
@@ -146,15 +146,15 @@ export async function runSignOut({
  * @returns {Promise<void>}
  */
 export async function runPreSignInSignOut({
-  livePreview,
-  hasBearer,
-  requestSignOut,
-  clearToken,
-  timeoutMs,
+    livePreview,
+    hasBearer,
+    requestSignOut,
+    clearToken,
+    timeoutMs,
 }) {
-  // In the preview a missing bearer means there is nothing to clear.
-  if (hasBearer || !livePreview) {
-    await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
-  }
-  clearToken();
+    // In the preview a missing bearer means there is nothing to clear.
+    if (hasBearer || !livePreview) {
+        await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
+    }
+    clearToken();
 }

@@ -35,34 +35,34 @@ const VITE_PREFIX = "VITE_";
  * must behave exactly like today (auth on, no overrides).
  */
 export function parseAppEnv(text) {
-  let parsed;
-  try {
-    parsed = JSON.parse(text);
-  } catch {
-    return {};
-  }
-  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
-  const env = {};
-  for (const [key, value] of Object.entries(parsed)) {
-    if (!key.startsWith(VITE_PREFIX)) continue;
-    if (typeof value !== "string") continue;
-    env[key] = value;
-  }
-  return env;
+    let parsed;
+    try {
+        parsed = JSON.parse(text);
+    } catch {
+        return {};
+    }
+    if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const env = {};
+    for (const [key, value] of Object.entries(parsed)) {
+        if (!key.startsWith(VITE_PREFIX)) continue;
+        if (typeof value !== "string") continue;
+        env[key] = value;
+    }
+    return env;
 }
 
 /** The app env recorded under `root`, or `{}` when the file is absent. */
 export function readAppEnv(root) {
-  try {
-    return parseAppEnv(readFileSync(join(root, APP_ENV_REL_PATH), "utf8"));
-  } catch {
-    return {};
-  }
+    try {
+        return parseAppEnv(readFileSync(join(root, APP_ENV_REL_PATH), "utf8"));
+    } catch {
+        return {};
+    }
 }
 
 /** File values under the process environment: an explicit override wins. */
 export function mergeAppEnv(appEnv, processEnv) {
-  return { ...appEnv, ...processEnv };
+    return { ...appEnv, ...processEnv };
 }
 
 /**
@@ -75,16 +75,16 @@ export function mergeAppEnv(appEnv, processEnv) {
  * for a signal-killed command, so a cancelled `vite build` is still a failure.
  */
 export function exitStatusFromChild(code, signal) {
-  if (signal) {
-    const signo = osConstants.signals[signal];
-    return 128 + (typeof signo === "number" ? signo : 1);
-  }
-  return code ?? 1;
+    if (signal) {
+        const signo = osConstants.signals[signal];
+        return 128 + (typeof signo === "number" ? signo : 1);
+    }
+    return code ?? 1;
 }
 
 /** The workspace root (this file lives in `<root>/scripts/`). */
 export function projectRoot() {
-  return dirname(dirname(fileURLToPath(import.meta.url)));
+    return dirname(dirname(fileURLToPath(import.meta.url)));
 }
 
 /**
@@ -95,45 +95,46 @@ export function projectRoot() {
  * launched through a symlinked path (`/tmp` on macOS) a silent no-op.
  */
 export function isMainModule(moduleUrl) {
-  const entry = process.argv[1];
-  if (!entry) return false;
-  try {
-    return realpathSync(entry) === fileURLToPath(moduleUrl);
-  } catch {
-    return false;
-  }
+    const entry = process.argv[1];
+    if (!entry) return false;
+    try {
+        return realpathSync(entry) === fileURLToPath(moduleUrl);
+    } catch {
+        return false;
+    }
 }
 
 function main(argv) {
-  const [command, ...args] = argv;
-  if (!command) {
-    console.error("usage: node scripts/with-app-env.mjs <command> [args…]");
-    process.exit(2);
-  }
-  const root = projectRoot();
-  const env = mergeAppEnv(readAppEnv(root), process.env);
-  const bin = join(root, "node_modules", ".bin");
-  env.PATH = `${bin}${delimiter}${env.PATH ?? ""}`;
-  if (env.Path) env.Path = env.PATH;
-  const child = spawn(command, args, {
-    stdio: "inherit",
-    env,
-    cwd: root,
-    shell: process.platform === "win32",
-  });
-  // The dev server is long-running and is stopped by signalling this wrapper.
-  for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-    process.on(signal, () => child.kill(signal));
-  }
-  child.on("error", (err) => {
-    console.error(`[with-app-env] failed to run ${command}:`, err?.message || err);
-    process.exit(127);
-  });
-  child.on("exit", (code, signal) => {
-    process.exit(exitStatusFromChild(code, signal));
-  });
+    const [command, ...args] = argv;
+    if (!command) {
+        console.error("usage: node scripts/with-app-env.mjs <command> [args…]");
+        process.exit(2);
+    }
+    const root = projectRoot();
+    const env = mergeAppEnv(readAppEnv(root), process.env);
+    const bin = join(root, "node_modules", ".bin");
+    // Windows commonly spells this key Path; preserve it so child commands can find Node.
+    env.PATH = `${bin}${delimiter}${env.PATH ?? env.Path ?? ""}`;
+    if (env.Path) env.Path = env.PATH;
+    const child = spawn(command, args, {
+        stdio: "inherit",
+        env,
+        cwd: root,
+        shell: process.platform === "win32",
+    });
+    // The dev server is long-running and is stopped by signalling this wrapper.
+    for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+        process.on(signal, () => child.kill(signal));
+    }
+    child.on("error", (err) => {
+        console.error(`[with-app-env] failed to run ${command}:`, err?.message || err);
+        process.exit(127);
+    });
+    child.on("exit", (code, signal) => {
+        process.exit(exitStatusFromChild(code, signal));
+    });
 }
 
 if (isMainModule(import.meta.url)) {
-  main(process.argv.slice(2));
+    main(process.argv.slice(2));
 }
