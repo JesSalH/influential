@@ -16,6 +16,13 @@ const messageEventSchema = z
 
 const loopbackHosts = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
 
+/** Studio embeds the desk; its Origin is not the landing host. */
+export const CHAT_PARTNER_ORIGINS = new Set([
+    "https://video.influentiallabs.studio",
+    "https://www.video.influentiallabs.studio",
+    "https://project-eva.lovable.app",
+]);
+
 /** Parses one socket event and validates the visitor's text before it reaches the conversation manager. */
 export function readChatSocketEvent(text: string): ChatClientEvent {
     let input: unknown;
@@ -73,6 +80,10 @@ export function validateChatSocketOrigin(request: Request): void {
     }
 
     if (isGrokEmbedderOrigin(originHeader)) {
+        return;
+    }
+
+    if (CHAT_PARTNER_ORIGINS.has(originUrl.origin)) {
         return;
     }
 

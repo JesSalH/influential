@@ -83,6 +83,30 @@ test("socket origin matches host even when the upgrade URL is ws", () => {
     assert.throws(() => validateChatSocketOrigin(foreign));
 });
 
+test("studio origins may open the landing socket", () => {
+    validateChatSocketOrigin(
+        new Request("https://influentiallabs.studio/api/chat/socket", {
+            headers: {
+                origin: "https://video.influentiallabs.studio",
+                host: "influentiallabs.studio",
+            },
+        }),
+    );
+    validateChatSocketOrigin(
+        new Request("https://influentiallabs.studio/api/chat/socket", {
+            headers: {
+                origin: "https://project-eva.lovable.app",
+                host: "influentiallabs.studio",
+            },
+        }),
+    );
+
+    const unknown = new Request("https://influentiallabs.studio/api/chat/socket", {
+        headers: { origin: "https://evil.test", host: "influentiallabs.studio" },
+    });
+    assert.throws(() => validateChatSocketOrigin(unknown));
+});
+
 test("sessions enforce expiry and capacity while memory remains ordinary storage", () => {
     let currentTime = 1000;
     const memory = new ConversationMemory();
