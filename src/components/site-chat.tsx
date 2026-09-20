@@ -21,7 +21,7 @@ export function SiteChat() {
         if (open) {
             field.current?.focus();
         }
-    }, [open, status]);
+    }, [open]);
 
     useEffect(() => {
         if (!open) {
@@ -40,7 +40,7 @@ export function SiteChat() {
 
     function onSubmit(event: FormEvent) {
         event.preventDefault();
-        if (status === "waiting" || status === "connecting" || status === "closed") {
+        if (status === "waiting" || status === "connecting") {
             return;
         }
         if (send(draft)) {
@@ -59,12 +59,12 @@ export function SiteChat() {
         return (
             <button
                 type="button"
-                className="fixed right-5 bottom-5 z-50 flex h-16 w-16 flex-col items-center justify-center border-2 border-line bg-fg text-bg transition-transform duration-150 ease-out active:scale-[0.96]"
+                className="group fixed right-5 bottom-5 z-50 flex h-16 w-16 flex-col items-center justify-center border-2 border-line bg-fg text-bg transition-colors duration-150 ease-out hover:border-spot hover:bg-spot hover:text-spot-fg active:scale-[0.96]"
                 aria-label="Open Influential Labs chat"
                 onClick={() => setOpen(true)}
             >
                 <span className="font-display text-[10px] font-extrabold tracking-[0.22em]">ASK</span>
-                <span className="font-display text-xs font-extrabold tracking-[-0.04em] text-spot">
+                <span className="font-display text-xs font-extrabold tracking-[-0.04em] text-spot group-hover:text-spot-fg">
                     LABS
                 </span>
             </button>
@@ -75,8 +75,7 @@ export function SiteChat() {
         draft.trim().length > 0 &&
         draft.trim().length <= maxCharacters &&
         status !== "waiting" &&
-        status !== "connecting" &&
-        status !== "closed";
+        status !== "connecting";
 
     return (
         <section
@@ -136,16 +135,15 @@ export function SiteChat() {
                         rows={2}
                         value={draft}
                         maxLength={maxCharacters}
-                        disabled={status === "closed"}
                         onChange={(event) => setDraft(event.target.value)}
                         onKeyDown={onComposerKey}
                         placeholder="What's the project?"
-                        className="min-h-12 flex-1 resize-none border-2 border-line bg-bg px-3 py-2 font-sans text-base text-fg outline-none focus:border-spot disabled:opacity-40"
+                        className="min-h-12 flex-1 resize-none border-2 border-line bg-bg px-3 py-2 font-sans text-base text-fg outline-none focus:border-spot"
                     />
                     <button
                         type="submit"
                         disabled={!canSend}
-                        className="flex size-12 shrink-0 items-center justify-center bg-fg text-bg transition-opacity duration-150 disabled:opacity-40"
+                        className="flex size-12 shrink-0 items-center justify-center bg-fg text-bg transition-colors duration-150 hover:bg-spot hover:text-spot-fg disabled:opacity-40 disabled:hover:bg-fg disabled:hover:text-bg"
                         aria-label="Send message"
                     >
                         <ArrowUp className="size-4" strokeWidth={2.5} />

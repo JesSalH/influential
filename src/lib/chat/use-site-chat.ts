@@ -20,8 +20,9 @@ export function useSiteChat(open: boolean) {
 
     useEffect(() => {
         if (!open) {
-            socketRef.current?.close();
+            const current = socketRef.current;
             socketRef.current = null;
+            current?.close();
             setLines([]);
             setError("");
             setStatus("idle");
@@ -34,7 +35,7 @@ export function useSiteChat(open: boolean) {
         setError("");
 
         socket.addEventListener("message", (event) => {
-            if (typeof event.data !== "string") {
+            if (socketRef.current !== socket || typeof event.data !== "string") {
                 return;
             }
 
@@ -44,9 +45,7 @@ export function useSiteChat(open: boolean) {
             }
 
             if (payload.type === "greeting") {
-                setLines([
-                    { id: newId(), role: "assistant", content: payload.message },
-                ]);
+                setLines([{ id: newId(), role: "assistant", content: payload.message }]);
                 setStatus("ready");
                 return;
             }
@@ -71,14 +70,14 @@ export function useSiteChat(open: boolean) {
         });
 
         socket.addEventListener("close", () => {
-            if (!openRef.current) {
+            if (socketRef.current !== socket || !openRef.current) {
                 return;
             }
             setStatus("closed");
         });
 
         socket.addEventListener("error", () => {
-            if (!openRef.current) {
+            if (socketRef.current !== socket || !openRef.current) {
                 return;
             }
             setError("The desk dropped. Close and open to start again.");
@@ -86,10 +85,10 @@ export function useSiteChat(open: boolean) {
         });
 
         return () => {
-            socket.close();
             if (socketRef.current === socket) {
                 socketRef.current = null;
             }
+            socket.close();
         };
     }, [open]);
 
