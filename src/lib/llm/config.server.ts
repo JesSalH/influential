@@ -6,6 +6,21 @@ import { resolve } from "node:path";
 
 import { parseEnv } from "node:util";
 
+import { env } from "../env.server.ts";
+
+const DEFAULT_FORMAT = "openai-compatible";
+const DEFAULT_BASE_URL = "https://api.deepseek.com";
+const DEFAULT_MODEL = "deepseek-flash";
+const DEFAULT_MAX_OUTPUT_TOKENS = "400";
+
+const HOST_SETTING_NAMES = [
+    "LLM_API_FORMAT",
+    "LLM_BASE_URL",
+    "LLM_MODEL",
+    "LLM_API_KEY",
+    "LLM_MAX_OUTPUT_TOKENS",
+] as const;
+
 // Configuration shared by the loader and the HTTP client.
 export type LlmConfig = {
     baseUrl: string;
@@ -24,18 +39,44 @@ type EnvironmentValues = {
 
 /** Reads file and hosting settings, validates them, and returns the LLM configuration. */
 export function readLlmConfig(
-    environment: EnvironmentValues = process.env,
+    environment: EnvironmentValues | undefined = undefined,
     envPath: string = resolve(process.cwd(), ".env"),
 ): LlmConfig {
+    const defaultEnvPath = resolve(process.cwd(), ".env");
     const fileValues = readEnvironmentFile(envPath);
 
-    // Copy file values first; hosting values override them, including empty strings.
+    const extraFiles =
+        envPath === defaultEnvPath ? [resolve(process.cwd(), "../.env")] : [];
+
+    for (const extraPath of extraFiles) {
+        if (extraPath === envPath) {
+            continue;
+        }
+        const extraValues = readEnvironmentFile(extraPath);
+        for (const name of Object.keys(extraValues)) {
+            if (fileValues[name] === undefined || fileValues[name].trim() === "") {
+                fileValues[name] = extraValues[name];
+            }
+        }
+    }
+
     const settings = Object.assign({}, fileValues);
 
-    for (const name of Object.keys(environment)) {
-        if (environment[name] !== undefined) {
-            settings[name] = environment[name];
+    for (const name of HOST_SETTING_NAMES) {
+        const hosted = readHostValue(name, environment);
+        if (hosted !== undefined) {
+            settings[name] = hosted;
         }
+    }
+
+    if (settings.LLM_API_FORMAT === undefined || settings.LLM_API_FORMAT.trim() === "") {
+        settings.LLM_API_FORMAT = DEFAULT_FORMAT;
+    }
+    if (settings.LLM_BASE_URL === undefined || settings.LLM_BASE_URL.trim() === "") {
+        settings.LLM_BASE_URL = DEFAULT_BASE_URL;
+    }
+    if (settings.LLM_MODEL === undefined || settings.LLM_MODEL.trim() === "") {
+        settings.LLM_MODEL = DEFAULT_MODEL;
     }
 
     validateApiFormat(settings);
@@ -57,6 +98,19 @@ export function readLlmConfig(
 
         maxOutputTokens: maxOutputTokens,
     };
+}
+
+/** Hosting secrets (Grok Android Secrets / Vercel) must be read dynamically so Vite cannot inline them away. */
+function readHostValue(name: string, environment?: EnvironmentValues): string | undefined {
+    if (environment) {
+        const value = environment[name];
+        if (value !== undefined && value.trim() !== "") {
+            return value;
+        }
+        return undefined;
+    }
+
+    return env(name);
 }
 
 /** Parses a private .env file; a missing file is allowed when hosting supplies the settings. */
@@ -144,8 +198,8 @@ function validateUrlSecurity(url: URL): void {
 function readTokenLimit(settings: EnvironmentValues): number {
     let value = settings.LLM_MAX_OUTPUT_TOKENS;
 
-    if (value === undefined) {
-        value = "400";
+    if (value === undefined || value.trim() === "") {
+        value = DEFAULT_MAX_OUTPUT_TOKENS;
     }
 
     const tokens = Number(value);

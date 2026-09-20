@@ -43,7 +43,15 @@ test("loads dotenv, preserves hosting overrides, and does not mutate process.env
 
         assert.deepEqual(environment, { LLM_MODEL: "host-model" });
 
-        assert.throws(() => readLlmConfig({ LLM_API_KEY: "" }, path), /LLM_API_KEY/);
+        assert.equal(
+            readLlmConfig({ LLM_API_KEY: "only-key" }, join(dir, "missing.env")).apiKey,
+            "only-key",
+        );
+        assert.equal(
+            readLlmConfig({ LLM_API_KEY: "only-key" }, join(dir, "missing.env")).model,
+            "deepseek-flash",
+        );
+        assert.throws(() => readLlmConfig({}, join(dir, "missing.env")), /LLM_API_KEY/);
 
         assert.throws(
             () => readLlmConfig({ LLM_BASE_URL: "http://remote.example" }, path),

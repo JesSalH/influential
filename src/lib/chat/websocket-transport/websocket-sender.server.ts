@@ -7,6 +7,7 @@ import type { ChatOutput } from "./chat-output.ts";
 import type { ChatServerEvent } from "./chat-socket-protocol.ts";
 import { ChatError } from "../chat-error.server.ts";
 import { describeChatFailure, logChatEvent } from "../chat-logger.server.ts";
+import { LlmRequestError } from "../../llm/request-error.server.ts";
 
 /** Sends events on one connection. Does not open or close conversations. */
 export class WebSocketSender implements ChatOutput {
@@ -27,11 +28,7 @@ export class WebSocketSender implements ChatOutput {
             ...describeChatFailure(failure),
         });
 
-        const code = failure instanceof ChatError ? failure.code : "REPLY_FAILED";
-        const message =
-            failure instanceof ChatError
-                ? failure.message
-                : "Sorry, I couldn't process your request. Please ask me again.";
+        const { code, message } = visitorError(failure);
 
         this.sendEvent({ type: "error", code, message });
 
@@ -76,4 +73,19 @@ export class WebSocketSender implements ChatOutput {
         const value = this.peer.context.conversationId;
         return typeof value === "string" ? value : undefined;
     }
+}
+
+function visitorError(failure: unknown): { code: string; message: string } {
+    if (failure instanceof ChatError) {
+        return { code: failure.code, message: failure.message };
+    }
+
+    if (failure instanceof LlmRequestError) {
+        return { code: failure.code, message: failure.message };
+    }
+
+    return {
+        code: "REPLY_FAILED",
+        message: "Sorry, I couldn't process your request. Please ask me again.",
+    };
 }
