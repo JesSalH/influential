@@ -12,6 +12,19 @@ import { requestResponse } from "../src/lib/chat/handlers/request-response.serve
 import { readChatSettings } from "../src/lib/chat/chat-settings.server.ts";
 import { readChatSocketEvent, validateChatSocketOrigin } from "../src/lib/chat/websocket-transport/chat-socket-validator.server.ts";
 
+test("instructions name the agency, studio, contact form, and refuse off-topic use", () => {
+    assert.match(CHAT_INSTRUCTIONS, /INFLUENTIAL LABS/);
+    assert.match(CHAT_INSTRUCTIONS, /video\.influentiallabs\.studio/);
+    assert.match(CHAT_INSTRUCTIONS, /\/start/);
+    assert.match(CHAT_INSTRUCTIONS, /AI Avatar Generator/);
+    assert.match(CHAT_INSTRUCTIONS, /Video Agent/);
+    assert.match(CHAT_INSTRUCTIONS, /AI Studio/);
+    assert.match(CHAT_INSTRUCTIONS, /Video Translation/);
+    assert.match(CHAT_INSTRUCTIONS, /not a general-purpose/);
+    assert.match(CHAT_INSTRUCTIONS, /jailbreak/i);
+    assert.doesNotMatch(CHAT_INSTRUCTIONS, /Intelligent Labs/);
+});
+
 test("validator accepts plain text and rejects invalid input before model use", () => {
     assert.deepEqual(validateChatInput({ message: "  What's <new>?\nHello!  " }), {
         message: "What's <new>?\nHello!",
@@ -98,7 +111,6 @@ test("memory keeps conversations isolated and copies history", () => {
 
     assert.equal(memory.getMessages(firstId).length, 2);
     assert.equal(memory.getMessages(secondId).length, 1);
-    assert.equal(CHAT_INSTRUCTIONS.length > 0, true);
 
     const copy = memory.getMessages(firstId);
     copy[0].content = "Modified outside store";
