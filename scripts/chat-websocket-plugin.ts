@@ -26,7 +26,7 @@ export function chatWebSocketPlugin(): Plugin {
                 /** Loads server code through Vite so TypeScript and server-only imports are supported. */
                 async resolve() {
                     const module = await server.ssrLoadModule(
-                        "/src/lib/chat/websocket-transport/chat-handler.server.ts",
+                        "/src/lib/chat/websocket-transport/chat-socket-hooks.server.ts",
                     );
 
                     return module.chatRequestHandler as Partial<Hooks>;

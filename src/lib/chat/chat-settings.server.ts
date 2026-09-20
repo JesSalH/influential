@@ -2,7 +2,7 @@ import "@tanstack/react-start/server-only";
 
 import { z } from "zod";
 
-import settings from "../../../config/chat.json";
+import settings from "../../../config/chat.json" with { type: "json" };
 
 import { logChatEvent } from "./chat-logger.server.ts";
 
