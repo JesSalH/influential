@@ -11,7 +11,9 @@ import { closeConversation } from "../src/lib/chat/handlers/close-conversation.s
 import { requestResponse } from "../src/lib/chat/handlers/request-response.server.ts";
 import { readChatSettings } from "../src/lib/chat/chat-settings.server.ts";
 import { readChatSocketEvent, validateChatSocketOrigin } from "../src/lib/chat/websocket-transport/chat-socket-validator.server.ts";
+import { visitorError } from "../src/lib/chat/websocket-transport/websocket-sender.server.ts";
 import { chatSocketUrl, readChatServerEvent } from "../src/lib/chat/chat-client.ts";
+import { LlmRequestError } from "../src/lib/llm/request-error.server.ts";
 
 test("instructions name the agency, studio, contact form, and refuse off-topic use", () => {
     assert.match(CHAT_INSTRUCTIONS, /INFLUENTIAL LABS/);
@@ -105,6 +107,23 @@ test("studio origins may open the landing socket", () => {
         headers: { origin: "https://evil.test", host: "influentiallabs.studio" },
     });
     assert.throws(() => validateChatSocketOrigin(unknown));
+});
+
+test("visitor errors survive when the error class is duplicated in the bundle", () => {
+    const cloned = Object.assign(new Error("The model connection is not configured correctly."), {
+        name: "LlmRequestError",
+        code: "LLM_CONFIGURATION_INVALID",
+        retryable: false,
+    });
+    assert.deepEqual(visitorError(cloned), {
+        code: "LLM_CONFIGURATION_INVALID",
+        message: "The model connection is not configured correctly.",
+    });
+    assert.deepEqual(visitorError(new LlmRequestError("timeout", true, "LLM_CONNECTION_FAILED")), {
+        code: "LLM_CONNECTION_FAILED",
+        message: "timeout",
+    });
+    assert.equal(visitorError(new Error("fs boom")).code, "REPLY_FAILED");
 });
 
 test("sessions enforce expiry and capacity while memory remains ordinary storage", () => {

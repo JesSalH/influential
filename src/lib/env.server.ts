@@ -1,4 +1,8 @@
+import process from "node:process";
+
 export function env(key: string): string | undefined {
+    // Read at call time from node:process so Vite/Nitro cannot replace
+    // `process.env.LLM_API_KEY` with an empty string at build time.
     const v = process.env[key]?.trim();
     return v || undefined;
 }

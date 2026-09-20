@@ -75,12 +75,8 @@ export class WebSocketSender implements ChatOutput {
     }
 }
 
-function visitorError(failure: unknown): { code: string; message: string } {
-    if (failure instanceof ChatError) {
-        return { code: failure.code, message: failure.message };
-    }
-
-    if (failure instanceof LlmRequestError) {
+export function visitorError(failure: unknown): { code: string; message: string } {
+    if (isSafeVisitorFailure(failure)) {
         return { code: failure.code, message: failure.message };
     }
 
@@ -88,4 +84,28 @@ function visitorError(failure: unknown): { code: string; message: string } {
         code: "REPLY_FAILED",
         message: "Sorry, I couldn't process your request. Please ask me again.",
     };
+}
+
+function isSafeVisitorFailure(
+    failure: unknown,
+): failure is { code: string; message: string } {
+    if (!failure || typeof failure !== "object") {
+        return false;
+    }
+
+    if (failure instanceof ChatError || failure instanceof LlmRequestError) {
+        return true;
+    }
+
+    const name = "name" in failure ? String(failure.name) : "";
+    const code = "code" in failure && typeof failure.code === "string" ? failure.code : "";
+    const message =
+        "message" in failure && typeof failure.message === "string" ? failure.message : "";
+
+    // Production bundles can duplicate these classes, so `instanceof` is not enough.
+    return (
+        (name === "ChatError" || name === "LlmRequestError") &&
+        code.length > 0 &&
+        message.length > 0
+    );
 }
