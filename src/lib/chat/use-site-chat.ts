@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import chatSettings from "../../../config/chat.json" with { type: "json" };
 import { MAX_MESSAGE_CHARACTERS } from "./websocket-transport/chat-socket-protocol.ts";
 import { chatSocketUrl, readChatServerEvent, type ChatLine } from "./chat-client.ts";
 
@@ -7,6 +8,10 @@ type Status = "idle" | "connecting" | "ready" | "waiting" | "closed";
 
 function newId(): string {
     return crypto.randomUUID();
+}
+
+function greetingLine(content: string): ChatLine {
+    return { id: "greeting", role: "assistant", content };
 }
 
 export function useSiteChat(open: boolean) {
@@ -29,10 +34,19 @@ export function useSiteChat(open: boolean) {
             return;
         }
 
+        setLines([greetingLine(chatSettings.greeting)]);
+        setError("");
+        setStatus("connecting");
+
         const socket = new WebSocket(chatSocketUrl());
         socketRef.current = socket;
-        setStatus("connecting");
-        setError("");
+
+        socket.addEventListener("open", () => {
+            if (socketRef.current !== socket) {
+                return;
+            }
+            setStatus((current) => (current === "connecting" ? "ready" : current));
+        });
 
         socket.addEventListener("message", (event) => {
             if (socketRef.current !== socket || typeof event.data !== "string") {
@@ -45,8 +59,12 @@ export function useSiteChat(open: boolean) {
             }
 
             if (payload.type === "greeting") {
-                setLines([{ id: newId(), role: "assistant", content: payload.message }]);
+                setLines((current) => {
+                    const rest = current.filter((line) => line.id !== "greeting");
+                    return [greetingLine(payload.message), ...rest];
+                });
                 setStatus("ready");
+                setError("");
                 return;
             }
 
@@ -74,14 +92,15 @@ export function useSiteChat(open: boolean) {
                 return;
             }
             setStatus("closed");
+            setError("Could not reach the desk. Close and open to try again.");
         });
 
         socket.addEventListener("error", () => {
             if (socketRef.current !== socket || !openRef.current) {
                 return;
             }
-            setError("The desk dropped. Close and open to start again.");
             setStatus("closed");
+            setError("Could not reach the desk. Close and open to try again.");
         });
 
         return () => {

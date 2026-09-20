@@ -3,5 +3,5 @@
     "maxModelCallsPerProcessPerMinute": 120,
     "maxModelRequestAttempts": 3,
     "modelRetryDelayMs": 2000,
-    "greeting": "Welcome to Influential Labs. How can I help you?"
+    "greeting": "How can we help you?"
 }

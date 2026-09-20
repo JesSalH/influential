@@ -65,14 +65,20 @@ test("socket events accept a message and reject extra fields or bad JSON", () =>
     );
 });
 
-test("socket origin must match the request URL", () => {
-    const ok = new Request("https://influential.test/api/chat/socket", {
-        headers: { origin: "https://influential.test" },
-    });
-    validateChatSocketOrigin(ok);
+test("socket origin matches host even when the upgrade URL is ws", () => {
+    validateChatSocketOrigin(
+        new Request("ws://localhost:8080/api/chat/socket", {
+            headers: { origin: "http://localhost:8080", host: "localhost:8080" },
+        }),
+    );
+    validateChatSocketOrigin(
+        new Request("http://127.0.0.1:8080/api/chat/socket", {
+            headers: { origin: "http://localhost:8080", host: "127.0.0.1:8080" },
+        }),
+    );
 
     const foreign = new Request("https://influential.test/api/chat/socket", {
-        headers: { origin: "https://other.test" },
+        headers: { origin: "https://other.test", host: "influential.test" },
     });
     assert.throws(() => validateChatSocketOrigin(foreign));
 });
