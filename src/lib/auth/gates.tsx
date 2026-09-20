@@ -23,8 +23,8 @@ export const SIGN_IN_PATH = "/login";
 
 /** Render children only when a user is present (real session, or the disabled-auth dev user). */
 export function SignedIn({ children }: { children: ReactNode }) {
-  const { user } = useCurrentUserState();
-  return user ? <>{children}</> : null;
+    const { user } = useCurrentUserState();
+    return user ? <>{children}</> : null;
 }
 
 /**
@@ -32,9 +32,9 @@ export function SignedIn({ children }: { children: ReactNode }) {
  * cleared and there is no user). Hidden while the session is still loading.
  */
 export function SignedOut({ children }: { children: ReactNode }) {
-  const { user, isPending } = useCurrentUserState();
-  if (isPending || user) return null;
-  return <>{children}</>;
+    const { user, isPending } = useCurrentUserState();
+    if (isPending || user) return null;
+    return <>{children}</>;
 }
 
 /**
@@ -46,38 +46,32 @@ export function SignedOut({ children }: { children: ReactNode }) {
  * render this.
  */
 export function RedirectToSignIn({ to = SIGN_IN_PATH }: { to?: string }) {
-  return <Navigate to={to} />;
+    return <Navigate to={to} />;
 }
 
-export function SignInGate({
-  children,
-  fallback,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode;
-}) {
-  const { user, isPending } = useCurrentUserState();
-  const state = resolveSignInGateState({ isPending, hasUser: user !== null });
-  if (state === "pending") return null;
-  if (state === "signed_in") return <>{children}</>;
-  return <>{fallback ?? <SignInButtons />}</>;
+export function SignInGate({ children, fallback }: { children: ReactNode; fallback?: ReactNode }) {
+    const { user, isPending } = useCurrentUserState();
+    const state = resolveSignInGateState({ isPending, hasUser: user !== null });
+    if (state === "pending") return null;
+    if (state === "signed_in") return <>{children}</>;
+    return <>{fallback ?? <SignInButtons />}</>;
 }
 
 export function SignInButtons() {
-  return (
-    <div className="flex w-full max-w-sm flex-col gap-2">
-      {GROK_PROVIDERS.map((p) => (
-        <button
-          key={p.providerId}
-          type="button"
-          onClick={() => signIn(p.providerId, { callbackURL: "/" })}
-          className="w-full cursor-pointer rounded-md border border-neutral-300 px-4 py-2 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-900"
-        >
-          Continue with {p.label}
-        </button>
-      ))}
-    </div>
-  );
+    return (
+        <div className="flex w-full max-w-sm flex-col gap-2">
+            {GROK_PROVIDERS.map((p) => (
+                <button
+                    key={p.providerId}
+                    type="button"
+                    onClick={() => signIn(p.providerId, { callbackURL: "/" })}
+                    className="w-full cursor-pointer rounded-md border border-neutral-300 px-4 py-2 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-900"
+                >
+                    Continue with {p.label}
+                </button>
+            ))}
+        </div>
+    );
 }
 
 /**
@@ -88,45 +82,45 @@ export function SignInButtons() {
  * straight back in, so a sign-out control there is a broken loop.
  */
 export function UserButton() {
-  const user = useCurrentUser();
-  // Sign-out can take a moment (and can fail when deployed), so the control
-  // shows it is working and cannot be fired twice.
-  const [signingOut, setSigningOut] = useState(false);
-  const gateSession = useSyncExternalStore(
-    subscribeToNothing,
-    hasGateSessionMarker,
-    noGateSessionOnServer,
-  );
-  if (!user) return null;
-  const label = user.displayName ?? user.primaryEmail ?? "Account";
-  return (
-    <div className="flex items-center gap-2">
-      {user.profileImageUrl ? (
-        <img
-          src={user.profileImageUrl}
-          alt=""
-          className="h-8 w-8 rounded-full object-cover"
-        />
-      ) : (
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-black/10 text-sm font-medium dark:bg-white/20">
-          {label.charAt(0).toUpperCase()}
-        </span>
-      )}
-      <span className="text-sm font-medium">{label}</span>
-      {authEnabled && !gateSession && (
-        <button
-          type="button"
-          disabled={signingOut}
-          onClick={() => {
-            setSigningOut(true);
-            // Success navigates away; on failure re-enable so it can be retried.
-            void signOut().catch(() => setSigningOut(false));
-          }}
-          className="cursor-pointer text-sm underline-offset-4 opacity-70 hover:underline disabled:cursor-wait disabled:no-underline"
-        >
-          {signingOut ? "Signing out…" : "Sign out"}
-        </button>
-      )}
-    </div>
-  );
+    const user = useCurrentUser();
+    // Sign-out can take a moment (and can fail when deployed), so the control
+    // shows it is working and cannot be fired twice.
+    const [signingOut, setSigningOut] = useState(false);
+    const gateSession = useSyncExternalStore(
+        subscribeToNothing,
+        hasGateSessionMarker,
+        noGateSessionOnServer,
+    );
+    if (!user) return null;
+    const label = user.displayName ?? user.primaryEmail ?? "Account";
+    return (
+        <div className="flex items-center gap-2">
+            {user.profileImageUrl ? (
+                <img
+                    src={user.profileImageUrl}
+                    alt=""
+                    className="h-8 w-8 rounded-full object-cover"
+                />
+            ) : (
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-black/10 text-sm font-medium dark:bg-white/20">
+                    {label.charAt(0).toUpperCase()}
+                </span>
+            )}
+            <span className="text-sm font-medium">{label}</span>
+            {authEnabled && !gateSession && (
+                <button
+                    type="button"
+                    disabled={signingOut}
+                    onClick={() => {
+                        setSigningOut(true);
+                        // Success navigates away; on failure re-enable so it can be retried.
+                        void signOut().catch(() => setSigningOut(false));
+                    }}
+                    className="cursor-pointer text-sm underline-offset-4 opacity-70 hover:underline disabled:cursor-wait disabled:no-underline"
+                >
+                    {signingOut ? "Signing out…" : "Sign out"}
+                </button>
+            )}
+        </div>
+    );
 }

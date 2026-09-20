@@ -1,0 +1,7 @@
+{
+    "maxModelCallsPerConversationPerMinute": 30,
+    "maxModelCallsPerProcessPerMinute": 120,
+    "maxModelRequestAttempts": 3,
+    "modelRetryDelayMs": 2000,
+    "greeting": "How can we help you?"
+}
