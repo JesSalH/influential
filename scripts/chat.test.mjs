@@ -11,6 +11,7 @@ import { closeConversation } from "../src/lib/chat/handlers/close-conversation.s
 import { requestResponse } from "../src/lib/chat/handlers/request-response.server.ts";
 import { readChatSettings } from "../src/lib/chat/chat-settings.server.ts";
 import { readChatSocketEvent, validateChatSocketOrigin } from "../src/lib/chat/websocket-transport/chat-socket-validator.server.ts";
+import { chatSocketUrl, readChatServerEvent } from "../src/lib/chat/chat-client.ts";
 
 test("instructions name the agency, studio, contact form, and refuse off-topic use", () => {
     assert.match(CHAT_INSTRUCTIONS, /INFLUENTIAL LABS/);
@@ -164,4 +165,14 @@ test("request-response reports manager errors through ChatOutput", () => {
     requestResponse("missing-id", "Hello", output);
     assert.equal(events.length, 1);
     assert.equal(events[0].code, "SESSION_EXPIRED");
+});
+
+test("client socket URL uses the page host and parses server events", () => {
+    assert.equal(
+        chatSocketUrl({ protocol: "https:", host: "influentiallabs.studio" }),
+        "wss://influentiallabs.studio/api/chat/socket",
+    );
+    assert.deepEqual(readChatServerEvent(JSON.stringify({ type: "accepted" })), { type: "accepted" });
+    assert.equal(readChatServerEvent("{"), null);
+    assert.equal(readChatServerEvent(JSON.stringify({ type: "reply" })), null);
 });

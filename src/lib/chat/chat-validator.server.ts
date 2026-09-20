@@ -3,12 +3,13 @@ import "@tanstack/react-start/server-only";
 import { z } from "zod";
 
 import { ChatError } from "./chat-error.server.ts";
+import { MAX_MESSAGE_CHARACTERS } from "./websocket-transport/chat-socket-protocol.ts";
 
 export type ChatInput = {
     message: string;
 };
 
-export const MAX_MESSAGE_CHARACTERS = 2000;
+export { MAX_MESSAGE_CHARACTERS };
 
 // Visitors supply text only, never roles, history, instructions or model settings.
 const chatSchema = z

@@ -1,6 +1,7 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { SiteChat } from "@/components/site-chat";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "INFLUENTIAL LABS";
@@ -44,6 +45,7 @@ function RootDocument() {
                 <PreviewHostBridge />
                 <AuthProvider>
                     <Outlet />
+                    <SiteChat />
                 </AuthProvider>
                 <Scripts />
             </body>

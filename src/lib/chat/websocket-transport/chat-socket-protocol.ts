@@ -8,11 +8,12 @@ export type ChatServerEvent =
 /** The browser supplies new text only; conversation identity comes from its connection. */
 export type ChatClientEvent = {
     type: "message";
-
     message: string;
 };
 
 export const CHAT_SOCKET_PATH = "/api/chat/socket";
+
+export const MAX_MESSAGE_CHARACTERS = 2000;
 
 // Retains the existing HTTP input-byte limit for WebSocket messages.
 export const MAX_CHAT_EVENT_BYTES = 16384;
