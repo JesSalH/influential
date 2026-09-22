@@ -81,12 +81,12 @@ export function SiteChat() {
         <section
             className="fixed right-3 bottom-3 z-50 flex h-[min(36rem,calc(100dvh-1.5rem))] w-[min(24rem,calc(100vw-1.5rem))] flex-col border-2 border-line bg-bg text-fg shadow-[8px_8px_0_0_#161614] sm:right-5 sm:bottom-5"
             role="dialog"
-            aria-label="Influential Labs desk"
+            aria-label="Influential Labs virtual assistant"
         >
             <div className="h-1 bg-spot" />
             <header className="flex items-start justify-between gap-3 border-b-2 border-line px-4 py-3">
                 <div>
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-muted">Vol.01 · Desk</p>
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-muted">Virtual Assistant</p>
                     <p className="mt-1 font-display text-xl font-extrabold uppercase leading-none tracking-[-0.05em]">
                         Ask <span className="text-spot">Labs</span>
                     </p>
@@ -103,7 +103,7 @@ export function SiteChat() {
 
             <div ref={scroller} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
                 {status === "connecting" && lines.length === 0 ? (
-                    <p className="text-sm text-muted">Opening the desk…</p>
+                    <p className="text-sm text-muted">Opening the assistant…</p>
                 ) : null}
 
                 {lines.map((line) => (

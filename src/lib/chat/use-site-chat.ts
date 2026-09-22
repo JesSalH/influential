@@ -92,7 +92,7 @@ export function useSiteChat(open: boolean) {
                 return;
             }
             setStatus("closed");
-            setError("Could not reach the desk. Close and open to try again.");
+            setError("Could not reach the assistant. Close and open to try again.");
         });
 
         socket.addEventListener("error", () => {
@@ -100,7 +100,7 @@ export function useSiteChat(open: boolean) {
                 return;
             }
             setStatus("closed");
-            setError("Could not reach the desk. Close and open to try again.");
+            setError("Could not reach the assistant. Close and open to try again.");
         });
 
         return () => {
@@ -119,7 +119,7 @@ export function useSiteChat(open: boolean) {
 
         const socket = socketRef.current;
         if (!socket || socket.readyState !== WebSocket.OPEN) {
-            setError("The desk is not connected yet.");
+            setError("The assistant is not connected yet.");
             return false;
         }
 
